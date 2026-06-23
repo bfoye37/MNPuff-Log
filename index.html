@@ -58,6 +58,10 @@
     .card-img { width:100%; aspect-ratio:3/4; object-fit:cover; display:none; }
     .card-body { padding:1.2rem 1.1rem; display:flex; flex-direction:column; gap:.55rem; flex:1; }
     .card-top { display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem; }
+    .type-tag { display:inline-block; padding:.1rem .45rem; border-radius:6px; font-size:.58rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.25rem; }
+    .type-tag.Sativa  { background:rgba(120,200,80,.15);  color:#7ec850; }
+    .type-tag.Indica  { background:rgba(130,90,220,.15);  color:#a07de0; }
+    .type-tag.Hybrid  { background:rgba(220,160,40,.15);  color:#d4a82a; }
     .card-name { font-family:'Playfair Display',serif; font-size:1rem; color:var(--text); line-height:1.3; }
     .card-breeder { font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; margin-top:2px; }
     .status-tag { display:inline-flex; align-items:center; padding:.18rem .55rem; border-radius:10px; font-size:.62rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; white-space:nowrap; flex-shrink:0; }
@@ -402,7 +406,7 @@ function renderGrid() {
       <img class="card-img" data-id="${s.id}" alt="${esc(s.name)}">
       <div class="card-body">
         <div class="card-top">
-          <div><div class="card-name">${esc(s.name)}</div><div class="card-breeder">${esc(s.breeder)}</div></div>
+          <div>${s.type ? `<div class="type-tag ${esc(s.type)}">${esc(s.type)}</div>` : ''}<div class="card-name">${esc(s.name)}</div><div class="card-breeder">${esc(s.breeder)}</div></div>
           <span class="status-tag ${sc}">${esc(s.status)}</span>
         </div>
         ${s.notes ? `<div class="card-notes">${esc(s.notes)}</div>` : ''}
