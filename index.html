@@ -203,6 +203,7 @@
         <button class="modal-close" onclick="closeDetailModal()">&#x2715;</button>
       </div>
       <div class="modal-controls">
+        <span id="modal-type-tag" class="type-tag" style="display:none"></span>
         <span id="modal-status-tag" class="status-tag"></span>
         <div class="status-update-group">
           <select id="modal-status-select">
@@ -406,7 +407,7 @@ function renderGrid() {
       <img class="card-img" data-id="${s.id}" alt="${esc(s.name)}">
       <div class="card-body">
         <div class="card-top">
-          <div>${s.type ? `<div class="type-tag ${esc(s.type)}">${esc(s.type)}</div>` : ''}<div class="card-name">${esc(s.name)}</div><div class="card-breeder">${esc(s.breeder)}</div></div>
+          <div>${s.type ? `<div class="type-tag ${esc(s.type)}"${s.type_reason ? ` title="${esc(s.type_reason)}"` : ''}>${esc(s.type)}</div>` : ''}<div class="card-name">${esc(s.name)}</div><div class="card-breeder">${esc(s.breeder)}</div></div>
           <span class="status-tag ${sc}">${esc(s.status)}</span>
         </div>
         ${s.notes ? `<div class="card-notes">${esc(s.notes)}</div>` : ''}
@@ -440,6 +441,15 @@ async function openDetail(id) {
   if (!strain) return;
   document.getElementById('modal-name').textContent    = strain.name;
   document.getElementById('modal-breeder').textContent = strain.breeder;
+  const typeTag = document.getElementById('modal-type-tag');
+  if (strain.type) {
+    typeTag.textContent  = strain.type;
+    typeTag.className    = `type-tag ${strain.type}`;
+    typeTag.title        = strain.type_reason || '';
+    typeTag.style.display = '';
+  } else {
+    typeTag.style.display = 'none';
+  }
   const tag = document.getElementById('modal-status-tag');
   tag.textContent = strain.status;
   tag.className   = `status-tag ${strain.status.replace(' ', '-')}`;
