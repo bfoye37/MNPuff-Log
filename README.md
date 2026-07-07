@@ -38,7 +38,7 @@ Open `data/strains.json` and add a new object to the `"strains"` array:
 }
 ```
 
-**Status options:** `Vault` · `Active` · `Curing` · `Frozen Bag`
+**Status options:** `Vault` · `Active` · `Curing`
 
 The `id` must be unique — lowercase letters and hyphens only, e.g. `"cherry-jealousy"`.
 
@@ -122,7 +122,7 @@ GitHub Pages picks up the push within ~60 seconds.
 
 ## Changing a Strain's Status
 
-The **Update** button and status dropdown in the app let you change a strain's status (`Vault` / `Active` / `Curing` / `Frozen Bag`) right from the browser. Because GitHub Pages only serves static files — there's no server to write back to `data/strains.json` — that change is saved to your browser only (it'll survive a refresh on the same device, but nobody else, and no other device, will see it).
+The **Update** button and status dropdown in the app let you change a strain's status (`Vault` / `Active` / `Curing`) right from the browser. Because GitHub Pages only serves static files — there's no server to write back to `data/strains.json` — that change is saved to your browser only (it'll survive a refresh on the same device, but nobody else, and no other device, will see it).
 
 **To change a strain's status for everyone**, edit it directly in `data/strains.json` and push:
 
