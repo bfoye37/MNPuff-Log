@@ -14,8 +14,8 @@
       --text:#d4d9f5; --muted:#7a85b8; --faint:#3a4570;
       --gold:#5bc8e8; --gold-hi:#7ee0f8; --gold-dim:#2a6880;
       --green:#5c8050; --green-hi:#78a868;
-      --cured-bg:#082c18;   --cured-fg:#a8cc48;
-      --growlog-bg:#2c1e06; --growlog-fg:#e0a030;
+      --curing-bg:#082c18;  --curing-fg:#a8cc48;
+      --frozen-bg:#071e2c;  --frozen-fg:#5bc8e8;
       --active-bg:#082018;  --active-fg:#38c868;
       --vault-bg:#1a1538;   --vault-fg:#9b78e8;
     }
@@ -23,7 +23,9 @@
     body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; min-height:100vh; }
 
     header { background:linear-gradient(180deg,#08090f00 0%,var(--surface) 100%),linear-gradient(135deg,#08090f 0%,#0f1120 100%); border-bottom:1px solid var(--border); padding:1.4rem 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-    .brand { display:flex; flex-direction:column; gap:2px; }
+    .brand { display:flex; align-items:center; gap:.7rem; }
+    .brand-logo { height:42px; width:auto; display:block; flex-shrink:0; }
+    .brand-text { display:flex; flex-direction:column; gap:2px; }
     .brand-name { font-family:'Playfair Display',serif; font-size:1.55rem; color:var(--gold-hi); letter-spacing:.01em; line-height:1.1; }
     .brand-tagline { font-size:.68rem; color:var(--muted); letter-spacing:.18em; text-transform:uppercase; }
     .header-actions { display:flex; gap:.65rem; align-items:center; }
@@ -44,10 +46,10 @@
     .filter-btn { padding:.3rem .85rem; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; font-size:.76rem; font-weight:500; font-family:'Inter',sans-serif; transition:all .15s ease; white-space:nowrap; flex-shrink:0; }
     .filter-btn:hover { border-color:var(--border-hi); color:var(--text); }
     .filter-btn.active { background:var(--card); border-color:var(--gold-dim); color:var(--gold); }
-    .filter-btn[data-filter="Active"].active    { background:var(--active-bg);  border-color:var(--active-fg);  color:var(--active-fg); }
-    .filter-btn[data-filter="Grow Log"].active  { background:var(--growlog-bg); border-color:var(--growlog-fg); color:var(--growlog-fg); }
-    .filter-btn[data-filter="Cured"].active     { background:var(--cured-bg);   border-color:var(--cured-fg);   color:var(--cured-fg); }
-    .filter-btn[data-filter="Vault"].active     { background:var(--vault-bg);   border-color:var(--vault-fg);   color:var(--vault-fg); }
+    .filter-btn[data-filter="Active"].active     { background:var(--active-bg);  border-color:var(--active-fg);  color:var(--active-fg); }
+    .filter-btn[data-filter="Curing"].active     { background:var(--curing-bg);  border-color:var(--curing-fg);  color:var(--curing-fg); }
+    .filter-btn[data-filter="Frozen Bag"].active { background:var(--frozen-bg);  border-color:var(--frozen-fg);  color:var(--frozen-fg); }
+    .filter-btn[data-filter="Vault"].active      { background:var(--vault-bg);   border-color:var(--vault-fg);   color:var(--vault-fg); }
     .strain-count-badge { margin-left:auto; flex-shrink:0; font-size:.65rem; color:var(--faint); font-family:'JetBrains Mono',monospace; letter-spacing:.04em; }
 
     main { padding:1.75rem 2rem 3rem; max-width:1400px; margin:0 auto; }
@@ -67,13 +69,12 @@
     .card-name { font-family:'Playfair Display',serif; font-size:1rem; color:var(--text); line-height:1.3; }
     .card-breeder { font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; margin-top:2px; }
     .status-tag { display:inline-flex; align-items:center; padding:.18rem .55rem; border-radius:10px; font-size:.62rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; white-space:nowrap; flex-shrink:0; }
-    .status-tag.Cured    { background:var(--cured-bg);   color:var(--cured-fg); }
-    .status-tag.Grow-Log { background:var(--growlog-bg); color:var(--growlog-fg); }
-    .status-tag.Active   { background:var(--active-bg);  color:var(--active-fg); }
-    .status-tag.Vault    { background:var(--vault-bg);   color:var(--vault-fg); }
-    .card-notes { font-size:.74rem; color:var(--muted); font-style:italic; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; border-top:1px solid var(--border); padding-top:.5rem; }
-    .card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
-    .card-date { font-size:.65rem; color:var(--faint); font-family:'JetBrains Mono',monospace; }
+    .status-tag.Curing     { background:var(--curing-bg); color:var(--curing-fg); }
+    .status-tag.Frozen-Bag { background:var(--frozen-bg); color:var(--frozen-fg); }
+    .status-tag.Active     { background:var(--active-bg); color:var(--active-fg); }
+    .status-tag.Vault      { background:var(--vault-bg);  color:var(--vault-fg); }
+    .card-notes { font-size:.74rem; color:var(--muted); font-style:italic; line-height:1.4; border-top:1px solid var(--border); padding-top:.5rem; }
+    .card-footer { display:flex; justify-content:flex-end; align-items:center; margin-top:auto; }
     .card-researched { font-size:.62rem; color:var(--green-hi); display:flex; align-items:center; gap:3px; letter-spacing:.04em; }
 
     .modal-hero-img { width:100%; max-height:260px; object-fit:cover; display:none; cursor:pointer; transition:opacity .15s; }
@@ -90,8 +91,9 @@
     .modal-header-row { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
     .modal-name { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--text); line-height:1.2; }
     .modal-breeder { font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:3px; }
-    .modal-close { background:transparent; border:none; color:var(--faint); cursor:pointer; font-size:1.2rem; padding:.2rem; line-height:1; flex-shrink:0; transition:color .15s; }
+    .modal-close { background:transparent; border:none; color:var(--faint); cursor:pointer; padding:.2rem; line-height:1; flex-shrink:0; transition:color .15s; display:flex; align-items:center; justify-content:center; }
     .modal-close:hover { color:var(--text); }
+    .modal-close svg { width:1.05rem; height:1.05rem; display:block; }
     .modal-controls { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
     .status-update-group { display:flex; align-items:center; gap:.45rem; }
     select { background:var(--card); color:var(--text); border:1px solid var(--border-hi); border-radius:6px; padding:.3rem .7rem; font-size:.78rem; font-family:'Inter',sans-serif; cursor:pointer; }
@@ -172,8 +174,11 @@
 
 <header>
   <div class="brand">
-    <div class="brand-name">MN PUFF's Grow Log</div>
-    <div class="brand-tagline">Track &middot; Harvest</div>
+    <img class="brand-logo" src="images/mnpuff-logo.png" alt="MN PUFF logo">
+    <div class="brand-text">
+      <div class="brand-name">MN PUFF's Grow Log</div>
+      <div class="brand-tagline">Track &middot; Harvest</div>
+    </div>
   </div>
   <div class="header-actions">
     <button class="btn-icon" id="key-indicator" onclick="openSettings()" title="API Key Settings">&#9881;</button>
@@ -183,10 +188,10 @@
 <div class="filter-bar">
   <span class="filter-label">Filter</span>
   <button class="filter-btn active" data-filter="all"      onclick="setFilter('all',this)">All</button>
-  <button class="filter-btn"        data-filter="Active"   onclick="setFilter('Active',this)">Active</button>
-  <button class="filter-btn"        data-filter="Grow Log" onclick="setFilter('Grow Log',this)">Grow Log</button>
-  <button class="filter-btn"        data-filter="Cured"    onclick="setFilter('Cured',this)">Cured</button>
-  <button class="filter-btn"        data-filter="Vault"    onclick="setFilter('Vault',this)">Vault</button>
+  <button class="filter-btn"        data-filter="Active"     onclick="setFilter('Active',this)">Active</button>
+  <button class="filter-btn"        data-filter="Curing"     onclick="setFilter('Curing',this)">Curing</button>
+  <button class="filter-btn"        data-filter="Frozen Bag" onclick="setFilter('Frozen Bag',this)">Frozen Bag</button>
+  <button class="filter-btn"        data-filter="Vault"      onclick="setFilter('Vault',this)">Vault</button>
   <span class="strain-count-badge" id="strain-count"></span>
 </div>
 
@@ -202,7 +207,7 @@
     <div class="modal-header">
       <div class="modal-header-row">
         <div><div class="modal-name" id="modal-name"></div><div class="modal-breeder" id="modal-breeder"></div></div>
-        <button class="modal-close" onclick="closeDetailModal()">&#x2715;</button>
+        <button class="modal-close" onclick="closeDetailModal()" aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
       </div>
       <div class="modal-controls">
         <span id="modal-type-tag" class="type-tag" style="display:none"></span>
@@ -210,8 +215,8 @@
         <div class="status-update-group">
           <select id="modal-status-select">
             <option value="Active">Active</option>
-            <option value="Grow Log">Grow Log</option>
-            <option value="Cured">Cured</option>
+            <option value="Curing">Curing</option>
+            <option value="Frozen Bag">Frozen Bag</option>
             <option value="Vault">Vault</option>
           </select>
           <button class="btn btn-outline" onclick="updateStatus()">Update</button>
@@ -239,7 +244,7 @@
     <div class="modal-header">
       <div class="modal-header-row">
         <div class="modal-name" style="font-size:1.3rem">&#9881; API Key</div>
-        <button class="modal-close" onclick="closeSettings()">&#x2715;</button>
+        <button class="modal-close" onclick="closeSettings()" aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
       </div>
     </div>
     <div class="modal-form-body">
@@ -275,9 +280,10 @@
 <script>
 'use strict';
 
-const LS_STRAINS  = 'bgl_strains';
-const LS_RESEARCH = 'bgl_research';
-const LS_APIKEY   = 'bgl_apikey';
+const LS_STRAINS   = 'bgl_strains';
+const LS_RESEARCH  = 'bgl_research';
+const LS_APIKEY    = 'bgl_apikey';
+const LS_OVERRIDES = 'bgl_overrides'; // per-browser status/notes edits — GitHub Pages is static, so edits made in the UI can't write back to data/strains.json. This overlay makes edits survive a refresh on the same device; to make an edit visible to everyone, edit data/strains.json directly and push (see README).
 
 // Maps strain IDs to their actual image filenames (when filename differs from id)
 const STRAIN_IMAGES = {};
@@ -324,6 +330,18 @@ function loadResearch() { try { return JSON.parse(localStorage.getItem(LS_RESEAR
 function saveResearch() { localStorage.setItem(LS_RESEARCH, JSON.stringify(researchCache)); }
 function getApiKey()    { return localStorage.getItem(LS_APIKEY) || ''; }
 
+function loadOverrides() { try { return JSON.parse(localStorage.getItem(LS_OVERRIDES)) || {}; } catch { return {}; } }
+function saveOverride(id, fields) {
+  const overrides = loadOverrides();
+  overrides[id] = { ...overrides[id], ...fields };
+  localStorage.setItem(LS_OVERRIDES, JSON.stringify(overrides));
+}
+function applyOverrides(strains) {
+  const overrides = loadOverrides();
+  strains.forEach(s => { if (overrides[s.id]) Object.assign(s, overrides[s.id]); });
+  return strains;
+}
+
 const DEFAULT_RESEARCH = {}; // Research loaded from data/research_cache.json
 
 async function init() {
@@ -342,7 +360,7 @@ async function init() {
         fetch('./data/research_cache.json')
       ]);
       if (!sRes.ok) throw new Error();
-      allStrains = (await sRes.json()).strains || [];
+      allStrains = applyOverrides((await sRes.json()).strains || []);
       researchCache = rRes.ok ? await rRes.json() : loadResearch();
     } catch {
       // 3. Last resort: localStorage or minimal hardcoded defaults
@@ -404,7 +422,7 @@ function renderGrid() {
   grid.innerHTML = strains.map(s => {
     const sc  = s.status.replace(' ', '-');
     const res = researchCache[s.id];
-    const topMood = res?.mood_ratings ? getTopMood(res.mood_ratings) : null;
+    const topEffects = res?.effects ? getTopEffects(res.effects, 2) : [];
     return `<div class="strain-card" onclick="openDetail('${s.id}')">
       <img class="card-img" data-id="${s.id}" alt="${esc(s.name)}">
       <div class="card-body">
@@ -414,8 +432,7 @@ function renderGrid() {
         </div>
         ${s.notes ? `<div class="card-notes">${esc(s.notes)}</div>` : ''}
         <div class="card-footer">
-          <span class="card-date">${s.added}</span>
-          ${topMood ? `<span class="card-researched">&#x2726; ${esc(topMood)}</span>` : ''}
+          ${topEffects.length ? `<span class="card-researched">&#x2726; ${topEffects.map(esc).join(' &middot; ')}</span>` : '<span></span>'}
         </div>
       </div>
     </div>`;
@@ -423,11 +440,31 @@ function renderGrid() {
   grid.querySelectorAll('.card-img[data-id]').forEach(img => loadStrainImg(img, img.dataset.id));
 }
 
-function getTopMood(ratings) {
-  const top = Object.entries(ratings).sort((a,b) => b[1]-a[1])[0];
-  if (!top) return null;
-  const mood = MOODS.find(m => m.key === top[0]);
-  return mood ? mood.label : null;
+// Named effect words to look for in the free-text "effects" research field,
+// so cards can show a couple of named effects without needing extra API calls.
+const EFFECT_KEYWORDS = [
+  'Euphoric','Uplifting','Relaxing','Relaxed','Sedating','Creative','Focused','Energetic',
+  'Happy','Giggly','Talkative','Social','Sleepy','Calm','Hungry','Aroused','Blissful',
+  'Tingly','Cerebral','Motivated','Soothing','Mellow','Chill','Dreamy','Euphoria',
+];
+
+function getTopEffects(text, count) {
+  const found = [];
+  for (const word of EFFECT_KEYWORDS) {
+    const match = text.match(new RegExp(`\\b${word}\\b`, 'i'));
+    if (match) found.push({ word, index: match.index });
+  }
+  found.sort((a, b) => a.index - b.index);
+  const seen = new Set();
+  const labels = [];
+  for (const { word } of found) {
+    const label = word.replace(/^Relaxing$/, 'Relaxed').replace(/^Euphoria$/, 'Euphoric');
+    if (seen.has(label)) continue;
+    seen.add(label);
+    labels.push(label);
+    if (labels.length === count) break;
+  }
+  return labels;
 }
 
 function setFilter(f, btn) {
@@ -648,11 +685,12 @@ function updateStatus() {
   if (idx === -1) return;
   allStrains[idx].status = newStatus;
   saveStrains();
+  saveOverride(currentId, { status: newStatus });
   const tag = document.getElementById('modal-status-tag');
   tag.textContent = newStatus;
   tag.className   = `status-tag ${newStatus.replace(' ', '-')}`;
   renderGrid();
-  toast('Status updated');
+  toast('Status updated on this device &mdash; edit strains.json to update it everywhere');
 }
 
 function saveNotes() {
@@ -663,8 +701,9 @@ function saveNotes() {
   if (idx === -1) return;
   allStrains[idx].notes = el.value;
   saveStrains();
+  saveOverride(currentId, { notes: el.value });
   renderGrid();
-  toast('Notes saved');
+  toast('Notes saved on this device');
 }
 
 function confirmDelete() {

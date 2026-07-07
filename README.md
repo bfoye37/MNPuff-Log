@@ -38,7 +38,7 @@ Open `data/strains.json` and add a new object to the `"strains"` array:
 }
 ```
 
-**Status options:** `Vault` · `Active` · `Grow Log` · `Cured`
+**Status options:** `Vault` · `Active` · `Curing` · `Frozen Bag`
 
 The `id` must be unique — lowercase letters and hyphens only, e.g. `"cherry-jealousy"`.
 
@@ -120,6 +120,30 @@ GitHub Pages picks up the push within ~60 seconds.
 
 ---
 
+## Changing a Strain's Status
+
+The **Update** button and status dropdown in the app let you change a strain's status (`Vault` / `Active` / `Curing` / `Frozen Bag`) right from the browser. Because GitHub Pages only serves static files — there's no server to write back to `data/strains.json` — that change is saved to your browser only (it'll survive a refresh on the same device, but nobody else, and no other device, will see it).
+
+**To change a strain's status for everyone**, edit it directly in `data/strains.json` and push:
+
+```json
+{
+  "id": "cherry-jealousy",
+  ...
+  "status": "Curing"
+}
+```
+
+```bash
+git add data/strains.json
+git commit -m "Move Cherry Jealousy to Curing"
+git push
+```
+
+GitHub Pages picks up the push within ~60 seconds. This is the same workaround used for adding strains and notes — since it's a free static host, `data/strains.json` is the single source of truth that everyone sees.
+
+---
+
 ## Adding a Strain Photo
 
 Drop a `.jpg` or `.png` into `images/strains/` named after the strain's `id`:
@@ -164,4 +188,4 @@ The app tries two sources in order:
 1. **Static JSON files** at `./data/strains.json` + `./data/research_cache.json` — used on GitHub Pages or any web server
 2. **Browser localStorage** — last-resort fallback if neither is reachable
 
-On GitHub Pages, path 1 is always used and everything just works.
+On GitHub Pages, path 1 is always used and everything just works. Any status/notes edits made in the UI are layered on top of the JSON files in your browser's localStorage (see [Changing a Strain's Status](#changing-a-strains-status)) — edit `data/strains.json` directly to change what everyone else sees.
