@@ -1,0 +1,9 @@
+- X in corner does not show up on Ipone safari due to WEB Brower 
+- Remove Dates 
+- Mkae Linage Fully Visible 
+- Add Top 2 effects by name
+- Change "Cured" to Curing 
+- Delete "Grow Log" option 
+- MNPuff Logo in Top Left 
+- Make note on how to move to a new status
+- Add Frozen Bag 
