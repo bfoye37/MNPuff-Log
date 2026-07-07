@@ -1,9 +1,9 @@
 - X in corner does not show up on Ipone safari due to WEB Brower 
 - Remove Dates 
-- Mkae Linage Fully Visible 
+- Make Linage Fully Visible seems to cut off or something in the preview on card seems liek a sentence 
 - Add Top 2 effects by name
 - Change "Cured" to Curing 
 - Delete "Grow Log" option 
 - MNPuff Logo in Top Left 
-- Make note on how to move to a new status
+- Make note on how to move to a new status - use strains.json 
 - Add Frozen Bag 
