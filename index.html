@@ -414,10 +414,11 @@ function renderGrid() {
     grid.innerHTML = `<div class="empty-state"><div class="empty-glyph">&#127807;</div><div class="empty-text">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}strains yet.</div></div>`;
     return;
   }
+  const effectFreq = buildEffectFrequency();
   grid.innerHTML = strains.map(s => {
     const sc  = s.status.replace(' ', '-');
     const res = researchCache[s.id];
-    const topEffects = res?.effects ? getTopEffects(res.effects, 2) : [];
+    const topEffects = res?.effects ? getTopEffects(res.effects, 3, effectFreq) : [];
     return `<div class="strain-card" onclick="openDetail('${s.id}')">
       <img class="card-img" data-id="${s.id}" alt="${esc(s.name)}">
       <div class="card-body">
@@ -436,30 +437,54 @@ function renderGrid() {
 }
 
 // Named effect words to look for in the free-text "effects" research field,
-// so cards can show a couple of named effects without needing extra API calls.
+// so cards can show a few named effects without needing extra API calls.
+// Each entry covers a label plus its common word variants (relax/relaxed/relaxing, etc).
 const EFFECT_KEYWORDS = [
-  'Euphoric','Uplifting','Relaxing','Relaxed','Sedating','Creative','Focused','Energetic',
-  'Happy','Giggly','Talkative','Social','Sleepy','Calm','Hungry','Aroused','Blissful',
-  'Tingly','Cerebral','Motivated','Soothing','Mellow','Chill','Dreamy','Euphoria',
+  { label:'Euphoric',  re:/\beuphori(?:c|a)\b/i },
+  { label:'Uplifting', re:/\buplift(?:ing|ed)?\b/i },
+  { label:'Relaxed',   re:/\brelax(?:ed|ing)?\b/i },
+  { label:'Sedating',  re:/\bsedat(?:ing|ed|ion)\b/i },
+  { label:'Creative',  re:/\bcreativ(?:e|ity)\b/i },
+  { label:'Focused',   re:/\bfocus(?:ed|ing)?\b/i },
+  { label:'Energetic', re:/\benerg(?:etic|izing|y)\b/i },
+  { label:'Happy',     re:/\bhapp(?:y|iness)\b/i },
+  { label:'Giggly',    re:/\bgiggl(?:y|es|ing)\b/i },
+  { label:'Talkative', re:/\btalkative\b/i },
+  { label:'Social',    re:/\bsocial(?:izing)?\b/i },
+  { label:'Sleepy',    re:/\bsleep(?:y|iness)\b/i },
+  { label:'Calm',      re:/\bcalm(?:ing|ness)?\b/i },
+  { label:'Hungry',    re:/\bhung(?:ry|er)\b/i },
+  { label:'Aroused',   re:/\barous(?:ed|al|ing)\b/i },
+  { label:'Blissful',  re:/\bbliss(?:ful)?\b/i },
+  { label:'Tingly',    re:/\btingl(?:y|ing|es)\b/i },
+  { label:'Cerebral',  re:/\bcerebral\b/i },
+  { label:'Motivated', re:/\bmotivat(?:ed|ion)\b/i },
+  { label:'Soothing',  re:/\bsooth(?:ing|es)\b/i },
+  { label:'Mellow',    re:/\bmellow\b/i },
+  { label:'Dreamy',    re:/\bdream(?:y|like)\b/i },
 ];
 
-function getTopEffects(text, count) {
-  const found = [];
-  for (const word of EFFECT_KEYWORDS) {
-    const match = text.match(new RegExp(`\\b${word}\\b`, 'i'));
-    if (match) found.push({ word, index: match.index });
-  }
-  found.sort((a, b) => a.index - b.index);
-  const seen = new Set();
-  const labels = [];
-  for (const { word } of found) {
-    const label = word.replace(/^Relaxing$/, 'Relaxed').replace(/^Euphoria$/, 'Euphoric');
-    if (seen.has(label)) continue;
-    seen.add(label);
-    labels.push(label);
-    if (labels.length === count) break;
-  }
-  return labels;
+// Counts how many strains' "effects" text mention each keyword, so common
+// words (nearly every strain says "euphoric") can be de-prioritized in favor
+// of words that actually distinguish one card from the next.
+function buildEffectFrequency() {
+  const freq = {};
+  EFFECT_KEYWORDS.forEach(({ label }) => { freq[label] = 0; });
+  Object.values(researchCache).forEach(r => {
+    if (!r.effects) return;
+    EFFECT_KEYWORDS.forEach(({ label, re }) => { if (re.test(r.effects)) freq[label]++; });
+  });
+  return freq;
+}
+
+function getTopEffects(text, count, freq) {
+  const found = EFFECT_KEYWORDS
+    .map(({ label, re }) => ({ label, match: text.match(re) }))
+    .filter(x => x.match)
+    .map(x => ({ label: x.label, index: x.match.index, freq: freq[x.label] ?? 0 }));
+  // Rarer effects (lower freq) surface first; ties broken by where they appear in the text.
+  found.sort((a, b) => a.freq - b.freq || a.index - b.index);
+  return found.slice(0, count).map(x => x.label);
 }
 
 function setFilter(f, btn) {
