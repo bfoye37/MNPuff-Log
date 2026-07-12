@@ -183,9 +183,11 @@
     {
       "id": "frozen-bag",
       "name": "Frozen Bag",
+      "type": "Indica",
+      "type_reason": "Robinhood Seeds hasn't published a detailed parent cross, but the dense hash-plant structure and heavy sedating, sleepy, body-first effects point to an indica-leaning Kush/Gelato-style build.",
       "breeder": "Robinhood Seeds",
       "status": "Vault",
-      "notes": "",
+      "notes": "Exact parentage undisclosed by Robinhood Seeds. Dense, frost-heavy Kush/Gelato-leaning phenotype built for heavy resin and hash-plant structure.",
       "added": "2026-07-07"
     }
   ]
